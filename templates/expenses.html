@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="topbar mb-4">
+    <h4>Expenses</h4>
+</div>
+
+<!-- 🔹 ADD EXPENSE FORM -->
+<div class="card p-3 mb-4">
+    <h5>Add Expense</h5>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-4">
+                {{ form.date.label_tag }}
+                {{ form.date }}
+            </div>
+
+            <div class="col-md-4">
+                {{ form.amount.label_tag }}
+                {{ form.amount }}
+            </div>
+
+            <div class="col-md-4">
+                {{ form.expense_type.label_tag }}
+                {{ form.expense_type }}
+            </div>
+        </div>
+
+        <button class="btn btn-success mt-3">Add Expense</button>
+    </form>
+</div>
+
+<!-- 🔹 EXPENSE TABLE -->
+<table class="table table-bordered bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Expense Type</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for expense in expenses %}
+        <tr>
+            <td>{{ expense.date }}</td>
+            <td>{{ expense.amount }}</td>
+            <td>{{ expense.expense_type }}</td>
+
+            <td>
+                <a href="{% url 'edit_expense' expense.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'delete_expense' expense.id %}" class="btn btn-danger btn-sm">Delete</a>
+                <a href="{% url 'export_expenses' %}" class="btn btn-primary mb-3">Export Expenses</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No Expenses Found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

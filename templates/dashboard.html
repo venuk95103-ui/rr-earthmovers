@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="topbar mb-4">
+    <h4>Dashboard</h4>
+</div>
+
+<div class="row g-3">
+
+    <div class="col-md-2">
+        <div class="card-box bg-blue">
+            <h6>Total Amount</h6>
+            <h3>{{ total }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="card-box bg-green">
+            <h6>Cleared Amount</h6>
+            <h3>{{ cleared }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="card-box bg-red">
+            <h6>Balance</h6>
+            <h3>{{ balance }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="card-box bg-orange">
+            <h6>Expenses</h6>
+            <h3>{{ expenses }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="card-box bg-success">
+            <h6>Profit</h6>
+            <h3>{{ profit }}</h3>
+        </div>
+    </div>
+
+</div>
+
+<div class="row mt-4">
+
+    <!-- 🔹 PIE CHART -->
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Payment Status</h5>
+            <canvas id="pieChart"></canvas>
+        </div>
+    </div>
+
+    <!-- 🔹 DATE-WISE LINE GRAPH -->
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Trend (Date-wise)</h5>
+            <canvas id="lineChart"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<!-- 🔹 MONTHLY GRAPH -->
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card p-3">
+            <h5>Monthly Trend</h5>
+            <canvas id="monthlyChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// 🔹 PIE CHART
+new Chart(document.getElementById('pieChart'), {
+    type: 'pie',
+    data: {
+        labels: ['Cleared','Balance'],
+        datasets: [{
+            data: [{{ cleared }}, {{ balance }}],
+            backgroundColor: ['green','red']
+        }]
+    }
+});
+
+// 🔹 LINE CHART (FIXED LABEL)
+new Chart(document.getElementById('lineChart'), {
+    type: 'line',
+    data: {
+        labels: {{ dates|safe }},
+        datasets: [{
+            label: 'Total Amount',
+            data: {{ totals|safe }},
+            borderColor: 'blue',
+            fill: false,
+            tension: 0.3
+        }]
+    }
+});
+
+// 🔹 MONTHLY BAR CHART
+new Chart(document.getElementById('monthlyChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ months|safe }},
+        datasets: [{
+            label: 'Monthly Total',
+            data: {{ monthly_totals|safe }},
+            backgroundColor: 'rgba(46, 204, 113, 0.6)'
+        }]
+    }
+});
+</script>
+
+{% endblock %}

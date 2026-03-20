@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3>{{ farmer.name }}</h3>
+<p>{{ farmer.phone }}</p>
+<p>{{ farmer.address }}</p>
+
+<ul>
+{% for bill in bills %}
+<li>{{ bill.date }} - {{ bill.total_amount }}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

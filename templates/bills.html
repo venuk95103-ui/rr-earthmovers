@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="topbar mb-4">
+    <h4>Bills</h4>
+</div>
+
+<a href="/add-bill/" class="btn btn-success mb-3">+ Add Bill</a>
+
+<table class="table table-bordered bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th>Farmer Name</th>
+            <th>Total Amount</th>
+            <th>Cleared Amount</th>
+            <th>Balance</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for bill in bills %}
+        <tr>
+            <td>
+                <a href="{% url 'farmer_detail' bill.farmer.id %}">
+                    {{ bill.farmer.name }}
+                </a>
+            </td>
+
+            <td>{{ bill.total_amount }}</td>
+            <td>{{ bill.cleared_amount }}</td>
+            <td>{{ bill.total_amount|add:"-bill.cleared_amount" }}</td>
+            <td>{{ bill.date }}</td>
+
+            <td>
+                <a href="{% url 'edit_bill' bill.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'delete_bill' bill.id %}" class="btn btn-danger btn-sm">Delete</a>
+                <a href="{% url 'export_bills' %}" class="btn btn-primary mb-3">Export Bills</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center">No Bills Found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

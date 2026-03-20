@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RR Earth Movers</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body { background:#f5f7fb; }
+
+        .sidebar {
+            width:240px;
+            height:100vh;
+            position:fixed;
+            background:#1f2d3d;
+            color:white;
+        }
+
+        .sidebar a {
+            color:#cfd8dc;
+            display:block;
+            padding:12px;
+            text-decoration:none;
+        }
+
+        .sidebar a:hover {
+            background:#34495e;
+        }
+
+        .content {
+            margin-left:250px;
+            padding:20px;
+        }
+
+        .card-box {
+            padding:20px;
+            color:white;
+            border-radius:12px;
+        }
+
+        .bg-green { background:#2ecc71; }
+        .bg-blue { background:#3498db; }
+        .bg-red { background:#e74c3c; }
+        .bg-orange { background:#f39c12; }
+
+        .topbar {
+            background:linear-gradient(90deg,#2ecc71,#27ae60);
+            padding:15px;
+            color:white;
+            border-radius:10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h4 class="p-3">RR Earth Movers</h4>
+    <a href="/">Dashboard</a>
+    <a href="/bills/">Bills</a>
+    <a href="/expenses/">Expenses</a>
+    <a href="/add-farmer/">Add Farmer</a>
+    <form action="{% url 'logout' %}" method="post">{% csrf_token %}
+        <button type="submit" class="text-danger border-0 bg-transparent">Logout</button>
+    </form>
+</div>
+
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>
